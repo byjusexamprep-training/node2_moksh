@@ -1,7 +1,6 @@
-const pool = require("../library/db");
 const { isEmailValid } = require("../helper/validation.js");
 const { getUserByEmail, createUser, addPassword } = require("../model/user");
-const { encryptPassword, checkPassword } = require("../helper/bcrypt");
+const { encryptPassword } = require("../helper/bcrypt");
 const { v4: uuidv4 } = require("uuid");
 
 const registration = async (req, res) => {
@@ -24,7 +23,6 @@ const registration = async (req, res) => {
           password: encryptedPassword,
         }).
         then((userData) => {
-            
           addPassword({ email, password: encryptedPassword }).then(
             (passwordData) => {
                 res.status(201).json({ success: true, message: "ok", userData });
@@ -35,10 +33,10 @@ const registration = async (req, res) => {
         
       })
       .catch((err) => {
-        res.status(500).json({ message: err });
+        res.status(500).json( err );
       });
   } catch (err) {
-    res.status(401).json({ message: err });
+    res.status(401).json( err );
   }
 };
 
