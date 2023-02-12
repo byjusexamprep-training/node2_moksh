@@ -1,4 +1,5 @@
 const { getProducts,getProductByID, categoriesList } = require('../model/product')
+const { isuuidValid, } = require('../helper/validation')
 
 const productsList = async(req,res) => {
     const data = await getProducts()
@@ -7,6 +8,10 @@ const productsList = async(req,res) => {
 
 const getProduct = async(req,res) => {
     const id = req.params.id;
+    if( !isuuidValid( id ) ) {
+        res.status(401).json({ message : 'Product ID not valid'})
+        return
+    }
     const data = await getProductByID(id)
     res.status(201).json({ data : data })
 

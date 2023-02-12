@@ -1,22 +1,23 @@
 const knex = require("../library/db");
 
-const getProducts = async () => {
-  return await knex("products")
+const getProducts = () => {
+  return knex("products")
     .select("*")
-    .catch((err) => err);
+    .then((rows) => Array.isArray(rows) && rows);
 };
 
-const getProductByID = async (id) => {
-  return await knex("products")
+const getProductByID = (id) => {
+  return knex("products")
     .select("*")
-    .where("id", "=", id)
-    .catch((err) => err);
+    .where({ id })
+    .then((rows) => Array.isArray(rows) && (rows.length > 0 ? rows[0] : "Product does not exist"))
+    
 };
 
-const categoriesList = async () => {
-  return await knex("products")
+const categoriesList = () => {
+  return  knex("products")
     .distinct("category")
-    .catch((err) => err);
+    .then((rows) => Array.isArray(rows) && rows)
 };
 
 module.exports = {
