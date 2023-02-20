@@ -10,11 +10,11 @@ const getProductByID = (id) => {
   return knex("products")
     .select("*")
     .where({ id })
-    .then((rows) => Array.isArray(rows) && (rows.length > 0 ? rows[0] : "Product does not exist"))
+    .then((rows) => Array.isArray(rows) && (rows.length > 0 ? rows[0] : { error: "Product does not exist"}))
     
 };
 
-const categoriesList = () => {
+const getCategories = () => {
   return  knex("products")
     .distinct("category")
     .then((rows) => Array.isArray(rows) && rows)
@@ -23,5 +23,5 @@ const categoriesList = () => {
 module.exports = {
   getProducts,
   getProductByID,
-  categoriesList
+  getCategories
 };
